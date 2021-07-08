@@ -1,8 +1,6 @@
-package com.example.test_weather
+package com.example.test_weather.helper
 
-import android.provider.VoicemailContract
-
-data class LoadingState private constructor(
+data class LoadingState (
     val status: Status,
     val msg: String? = null){
     companion object{

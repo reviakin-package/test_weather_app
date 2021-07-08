@@ -7,8 +7,9 @@ import com.example.test_weather.database.WeatherRow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class WeatherRepository(
+class WeatherRepository @Inject constructor(
     private val weatherApi: WeatherApi,
     private val weatherDao: WeatherDao
 ) {

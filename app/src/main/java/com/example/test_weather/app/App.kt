@@ -1,4 +1,4 @@
-package com.example.test_weather
+package com.example.test_weather.app
 
 import android.app.Application
 import dagger.hilt.android.AndroidEntryPoint

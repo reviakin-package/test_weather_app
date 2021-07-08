@@ -1,10 +1,10 @@
-package com.example.test_weather
+package com.example.test_weather.modules
 
+import com.example.test_weather.WeatherApi
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,7 +22,7 @@ class WeatherApiModule {
     }
 
     @Provides
-    fun provideWeatherApi(retrofit: Retrofit) : WeatherApi{
+    fun provideWeatherApi(retrofit: Retrofit) : WeatherApi {
         return retrofit.create(WeatherApi::class.java)
     }
 }

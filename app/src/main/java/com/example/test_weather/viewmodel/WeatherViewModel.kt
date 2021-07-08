@@ -1,14 +1,18 @@
-package com.example.test_weather
+package com.example.test_weather.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.test_weather.helper.LoadingState
 import com.example.test_weather.repository.WeatherRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class WeatherViewModel(
+@HiltViewModel
+class WeatherViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel() {
 
