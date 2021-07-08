@@ -1,5 +1,6 @@
 package com.example.test_weather.activity
 
+import android.icu.text.SimpleDateFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -11,12 +12,18 @@ import com.example.test_weather.database.WeatherRow
 import com.example.test_weather.helper.LoadingState
 import com.example.test_weather.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val weatherViewModel: WeatherViewModel by viewModels()
-
+    @Inject
+    lateinit var dateFormatter: SimpleDateFormat
     private lateinit var containerInfo: LinearLayout
     private lateinit var editZipCode: EditText
     private lateinit var btnGetWeather: Button
@@ -35,11 +42,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         initDataObservers()
     }
 
-    fun initDataObservers(){
+    fun initDataObservers() {
         weatherViewModel.data.observe(this,
-            object : Observer<WeatherRow>{
+            object : Observer<WeatherRow> {
                 override fun onChanged(t: WeatherRow?) {
-                    if(t != null) {
+                    if (t != null) {
                         setData(
                             t?.location,
                             t?.tempterature.toString(),
@@ -57,11 +64,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             })
 
         weatherViewModel.loadingState.observe(this,
-            object : Observer<LoadingState>{
+            object : Observer<LoadingState> {
                 override fun onChanged(t: LoadingState?) {
-                    when(t?.status){
+                    when (t?.status) {
                         LoadingState.Status.FAILED -> {
-                            Toast.makeText(this@MainActivity, "Нет подключения к интернету", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this@MainActivity,
+                                resources.getString(R.string.place_not_found),
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
                 }
@@ -77,17 +88,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         visibility: String,
         sunrise: String,
         sunset: String
-    ){
+    ) {
         textLocation.text = location
         textTemperature.text = "$temperature C"
         textWindSpeed.text = "$windSpeed mph"
         textHumidity.text = "$humidity %"
         textVisibility.text = visibility
-        textSunrise.text = sunrise
-        textSunset.text = sunset
+        textSunrise.text = dateFormatter.format(Date(sunrise.toLong() * 1000))
+        textSunset.text = dateFormatter.format(Date(sunset.toLong() * 1000))
     }
 
-    fun initView(){
+    private fun initView() {
         containerInfo = findViewById(R.id.containerInfo)
         editZipCode = findViewById(R.id.editZipCode)
         btnGetWeather = findViewById(R.id.btnGetWeather)
@@ -102,7 +113,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
+        when (v?.id) {
             R.id.btnGetWeather -> {
                 weatherViewModel.fetchData(editZipCode.text.toString())
             }
