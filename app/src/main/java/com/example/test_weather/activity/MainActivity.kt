@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.example.test_weather.R
 import com.example.test_weather.database.WeatherRow
 import com.example.test_weather.helper.LoadingState
+import com.example.test_weather.utils.ConvertVisibilityUtils
 import com.example.test_weather.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val weatherViewModel: WeatherViewModel by viewModels()
+
     @Inject
     lateinit var dateFormatter: SimpleDateFormat
     private lateinit var containerInfo: LinearLayout
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         initDataObservers()
     }
 
-    fun initDataObservers() {
+    private fun initDataObservers() {
         weatherViewModel.data.observe(this,
             object : Observer<WeatherRow> {
                 override fun onChanged(t: WeatherRow?) {
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                             t?.tempterature.toString(),
                             t?.windSpeed.toString(),
                             t?.humidity.toString(),
-                            t?.visibility,
+                            t?.visibility.toString(),
                             t?.sunsirse.toString(),
                             t?.sunset.toString()
                         )
@@ -93,7 +95,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         textTemperature.text = "$temperature C"
         textWindSpeed.text = "$windSpeed mph"
         textHumidity.text = "$humidity %"
-        textVisibility.text = visibility
+        textVisibility.text =
+            resources.getString(ConvertVisibilityUtils.convertVisibilityToString(visibility.toInt()))
         textSunrise.text = dateFormatter.format(Date(sunrise.toLong() * 1000))
         textSunset.text = dateFormatter.format(Date(sunset.toLong() * 1000))
     }

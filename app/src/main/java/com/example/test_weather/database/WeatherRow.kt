@@ -12,7 +12,7 @@ data class WeatherRow(
     var tempterature: Double,
     var windSpeed: Double,
     var humidity: Int,
-    var visibility: String,
+    var visibility: Int,
     var sunsirse: Int,
     var sunset: Int
 )

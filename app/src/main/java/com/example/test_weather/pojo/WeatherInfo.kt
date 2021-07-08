@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class WeatherInfo (
 
-    @SerializedName("weather") var weather : List<Weather>,
+    @SerializedName("visibility") var visibility : Int,
     @SerializedName("main") var main : Main,
     @SerializedName("wind") var wind : Wind,
     @SerializedName("sys") var sys : Sys,

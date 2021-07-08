@@ -11,4 +11,9 @@
     <string name="visibility">Visibility</string>
     <string name="sunrise">Time of Sunrise</string>
     <string name="sunset">Time of Sunset</string>
+    <string name="clear">Clear</string>
+    <string name="reduced">Reduced</string>
+    <string name="fog">For</string>
+    <string name="almost_zero">Almost zero</string>
+    <string name="invalid">Invalid</string>
 </resources>

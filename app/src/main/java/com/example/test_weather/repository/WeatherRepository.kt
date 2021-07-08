@@ -27,7 +27,7 @@ class WeatherRepository @Inject constructor(
                     weather.main.temp,
                     weather.wind.speed,
                     weather.main.humidity,
-                    weather.weather.get(0).main,
+                    weather.visibility,
                     weather.sys.sunrise,
                     weather.sys.sunset
                 )
